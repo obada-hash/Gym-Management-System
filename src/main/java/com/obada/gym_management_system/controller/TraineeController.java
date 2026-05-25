@@ -51,7 +51,7 @@ public class TraineeController {
             Authentication auth) {
 
         boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
-        boolean isOwner = traineeService.getTraineeByEmail(auth.getName()).getId().equals(traineeId);
+        boolean isOwner = !isAdmin && traineeService.getTraineeByEmail(auth.getName()).getId().equals(traineeId);
 
         if (isAdmin || isOwner) {
             Subscription subscription = subscriptionService.getLatestSubscriptionByTraineeId(traineeId);
