@@ -22,7 +22,7 @@ public class AppUserDto {
 
     private String middleName;
 
-    private String LastName;
+    private String lastName;
 
     private String email;
 

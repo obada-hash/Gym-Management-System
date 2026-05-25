@@ -10,5 +10,9 @@ public interface SubscriptionService {
 
      Subscription findById(long id);
 
+     Subscription addSubscription(CreateSubscriptionRequest request, Long traineeId);
+
+     Subscription getLatestSubscriptionByTraineeId(Long traineeId);
+
 
 }

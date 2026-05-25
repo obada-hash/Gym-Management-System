@@ -10,6 +10,7 @@ import com.obada.gym_management_system.repository.TraineeRepo;
 import com.obada.gym_management_system.service.AppUserService;
 import com.obada.gym_management_system.service.SubscriptionService;
 import com.obada.gym_management_system.service.TraineeService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,6 @@ public class TraineeServiceImpl implements TraineeService {
         subscriptionService.insert(subscription);
 
         return trainee;
-
     }
 
     @Override
@@ -53,5 +53,11 @@ public class TraineeServiceImpl implements TraineeService {
     @Override
     public Trainee findById(Long id) {
         return traineeRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public Trainee getTraineeByEmail(String email) {
+        return traineeRepo.findByAppUserEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Trainee not found with email: " + email));
     }
 }

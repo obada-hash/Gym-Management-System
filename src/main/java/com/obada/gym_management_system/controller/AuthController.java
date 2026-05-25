@@ -1,6 +1,7 @@
 package com.obada.gym_management_system.controller;
 
 import com.obada.gym_management_system.dto.AuthRequest;
+import com.obada.gym_management_system.dto.LoginResponse;
 import com.obada.gym_management_system.security.JwtService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,21 +21,34 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody @Valid AuthRequest request) {
 
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
-        );
+        try {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+            );
 
-        Authentication authenticatedToken= authenticationManager.authenticate(authToken);
+            Authentication authenticatedToken = authenticationManager.authenticate(authToken);
 
-        UserDetails userDetails = (UserDetails) authenticatedToken.getPrincipal();
-        String token = jwtService.generateToken(userDetails);
+            UserDetails userDetails = (UserDetails) authenticatedToken.getPrincipal();
+            String token = jwtService.generateToken(userDetails);
 
-        return ResponseEntity.ok(token);
+            LoginResponse loginResponse = LoginResponse.builder()
+                    .token(token)
+                    .build();
+            return ResponseEntity.ok(loginResponse);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            LoginResponse loginResponse = LoginResponse.builder()
+                    .error(e.getMessage())
+                    .build();
+            return ResponseEntity.status(401).body(loginResponse);
+        }
 
 
     }

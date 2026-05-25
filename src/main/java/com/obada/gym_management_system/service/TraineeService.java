@@ -13,4 +13,6 @@ public interface TraineeService {
     List<Trainee> getAllTrainees();
 
     Trainee findById(Long id);
+
+    Trainee getTraineeByEmail(String email);
 }
