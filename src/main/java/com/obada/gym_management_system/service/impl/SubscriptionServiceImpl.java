@@ -18,7 +18,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private final SubscriptionRepo subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
-    private final TraineeService traineeService;
 
 
     @Override
@@ -32,9 +31,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription addSubscription(CreateSubscriptionRequest request, Long traineeId) {
-
-        Trainee trainee = traineeService.findById(traineeId);
+    public Subscription addSubscription(CreateSubscriptionRequest request, Trainee trainee) {
 
         Subscription sub = Subscription.builder()
                 .trainee(trainee)

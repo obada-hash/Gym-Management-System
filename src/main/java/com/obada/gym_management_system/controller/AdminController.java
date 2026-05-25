@@ -70,7 +70,8 @@ public class AdminController {
             @RequestBody CreateSubscriptionRequest subRequest,
             @PathVariable Long traineeId
     ){
-        SubscriptionDto dto = subscriptionMapper.toDto(subscriptionService.addSubscription(subRequest, traineeId));
+        Trainee trainee = traineeService.findById(traineeId);
+        SubscriptionDto dto = subscriptionMapper.toDto(subscriptionService.addSubscription(subRequest, trainee));
         return ResponseEntity.ok(dto);
     }
 
